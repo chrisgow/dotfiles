@@ -1,13 +1,18 @@
 # Taps
+tap 'homebrew/bundle'
 tap 'homebrew/cask'
+tap 'homebrew/core'
+tap 'nulogy/nulogy', 'git@github.com:nulogy/homebrew-nulogy.git'
 
 # Binaries
 brew 'awscli'
+brew 'branj'
 brew 'curl'
+brew 'docker-compose'
 brew 'git'
 brew 'gettext'
 brew 'gh'
-brew 'gpg2''
+brew 'gpg2'
 brew 'jq'
 brew 'nginx'
 brew 'openssl'
@@ -15,10 +20,11 @@ brew 'postgresql'
 
 # Apps
 cask '1password'
-cask 'alfred''
-cask 'bartender''
+cask 'alfred'
+cask 'bartender'
 cask 'docker'
 cask 'macvim'
-cask 'rubymine''
+cask 'rubymine'
 cask 'sizeup'
+cask 'tableplus'
 

@@ -3,6 +3,12 @@
 echo "Setting up your Mac..."
 
 #
+# Set up Mac defaults
+#
+.macos/osx
+.macos/macos-enable-sudo-pam_tid
+
+#
 # Set up git (using Nulogy's config)
 git config --global push.default simple
 git config --global remote.origin.push HEAD
@@ -18,13 +24,10 @@ if test ! $(which omz); then
   /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/HEAD/tools/install.sh)"
 fi
 
-# TODO: Use agnostor as the default theme
 # TODO: Pick a patched font
-#
 #
 # install brew - instructions from brew.sh
 #
-
 if test ! $(which brew); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -37,17 +40,6 @@ brew update
 # Install all our dependencies with bundle (See Brewfile)
 brew tap homebrew/bundle
 brew bundle --file .brew_manifest
-# Install homebrew packages listed in .brew_manifest
-#
-cat $HOME/.brew_manifest | xargs brew install
-
-#
-# Install casks
-#
-brew install --cask macvim
-brew install --cask rubymine
-brew install --cask sizeup
-brew install --cask alfred
 
 # 
 # set up rvm

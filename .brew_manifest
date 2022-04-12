@@ -1,0 +1,24 @@
+# Taps
+tap 'homebrew/cask'
+
+# Binaries
+brew 'awscli'
+brew 'curl'
+brew 'git'
+brew 'gettext'
+brew 'gh'
+brew 'gpg2''
+brew 'jq'
+brew 'nginx'
+brew 'openssl'
+brew 'postgresql'
+
+# Apps
+cask '1password'
+cask 'alfred''
+cask 'bartender''
+cask 'docker'
+cask 'macvim'
+cask 'rubymine''
+cask 'sizeup'
+

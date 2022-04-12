@@ -105,12 +105,14 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias oc="cd $HOME/d/opscore"
 alias dqi="cd $HOME/d/dqi"
 alias mobbing="open https://nulogy.zoom.us/j/7286849403"
-alias teamroom="open https://nulogy.zoom.us/j/7513224419?pwd=MVkrOVN4alpZSWdrUmZxOTA5K2hCZz09"
+alias teamroom="open https://nulogy.zoom.us/j/7513224419\?pwd\=MVkrOVN4alpZSWdrUmZxOTA5K2hCZz09"
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$HOME/.bin:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

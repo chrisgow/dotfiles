@@ -107,6 +107,10 @@ alias dqi="cd $HOME/d/dqi"
 alias mobbing="open https://nulogy.zoom.us/j/7286849403"
 alias teamroom="open https://nulogy.zoom.us/j/7513224419\?pwd\=MVkrOVN4alpZSWdrUmZxOTA5K2hCZz09"
 
+# Nulogy/Packmanager specific settings
+export CAPYBARA_MAX_WAIT_TIME=600
+export PM_REQUEST_TIMEOUT_IN_MINUTES=10
+
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

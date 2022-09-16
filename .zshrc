@@ -1,20 +1,7 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="agnoster"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -49,11 +36,6 @@ ZSH_THEME="agnoster"
 # Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 # COMPLETION_WAITING_DOTS="true"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # You can set one of the optional three formats:
@@ -62,61 +44,120 @@ ZSH_THEME="agnoster"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git nulogy)
+plugins=(git kubectl history-substring-search nulogy)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# When a new command line being added to the history list duplicates an older
+# one, the older command is removed from the list.
+setopt HIST_IGNORE_ALL_DUPS
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+# Do not display duplicates of a line previously found.
+setopt HIST_FIND_NO_DUPS
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+# Commands that start with a space are not added to history.
+setopt HIST_IGNORE_SPACE
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+# When writing out the history, omit older commands that duplicate newer ones.
+setopt HIST_SAVE_NO_DUPS
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# Remove superfluous blanks before recording entry.
+setopt HIST_REDUCE_BLANKS
+
+export EDITOR=mvim
 
 # aliases
+
+# store shell configuration in git
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias oc="cd $HOME/d/opscore"
-alias dqi="cd $HOME/d/dqi"
-alias mobbing="open https://nulogy.zoom.us/j/7286849403"
-alias teamroom="open https://nulogy.zoom.us/j/7513224419\?pwd\=MVkrOVN4alpZSWdrUmZxOTA5K2hCZz09"
+
+# Snip current branch to clipboard
+alias gbcopy="git branch --show-current | pbcopy"
+
+# rg <gem_name> - open rubygems for the gem specified
+function rg() {
+  open "https://rubygems.org/gems/$1"
+}
+
+# Shows the branches that have been merged.
+alias lm=locally_merged
+
+# use exa - a modern ls replacement - for ls
+alias ls='exa'
+
+alias permit_chromedriver='xattr -d com.apple.quarantine $(which chromedriver) > /dev/null 2>&1'
+
+# Brew functions
+alias brewdump='pushd $HOME && brew bundle dump --force && popd'
+function brupdate { brew update; brew upgrade; brew cleanup; brew doctor; }
+
+function update_homebrew {
+  rm -rf /usr/local/var/homebrew/locks
+  brew cleanup -q
+  brewdump
+  brew update -q
+  brew upgrade -q
+  brew upgrade -q --cask
+  brew cleanup -q
+  permit_chromedriver
+}
+
+
+# Source from a file that will not go into my dotfiles repo
+[ -f .zshrc_private ] && source .zshrc_private
 
 # Nulogy/Packmanager specific settings
 export CAPYBARA_MAX_WAIT_TIME=600
 export PM_REQUEST_TIMEOUT_IN_MINUTES=10
+export PACKMANAGER_HOME=$HOME/d/opscore
 
-# nvm
+alias pm="cd $PACKMANAGER_HOME"
+alias dqi="cd $HOME/d/dqi"
+#alias mobbing="open https://nulogy.zoom.us/j/7286849403"
+#alias old_teamroom="open https://nulogy.zoom.us/j/7513224419\?pwd\=MVkrOVN4alpZSWdrUmZxOTA5K2hCZz09"
+alias teamroom="open https://nulogy.zoom.us/j/91076568627\?pwd\=dzFxZ1V5ZHBwYUdacXgyczVoY3hIZz09"
+alias okta='open https://nulogy.okta.com/app/UserHome'
+alias kb='open https://nulogy-go.atlassian.net/jira/software/c/projects/PM/boards/171'
+alias bk='buildkite'
+
+# Use improved outdated
+alias outdated='./development/scripts/outdated_gems/outdated_gems.rb'
+
+# Choose openssl over native OS X libraries.
+export PATH=/usr/local/opt/openssl/bin:$PATH
+
+# nvm configuration
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export PATH="$HOME/.bin:$PATH"
+
+# Calling nvm use automatically in a directory with a .nvmrc file 
+# (from https://gist.github.com/tcrammond/e52dfad4c2b36258f83f7a964af10097)
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

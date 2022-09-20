@@ -65,7 +65,7 @@ setopt HIST_SAVE_NO_DUPS
 # Remove superfluous blanks before recording entry.
 setopt HIST_REDUCE_BLANKS
 
-export EDITOR=mvim
+export EDITOR=vim
 
 # aliases
 
@@ -81,7 +81,7 @@ function rg() {
 }
 
 # Shows the branches that have been merged.
-alias lm=locally_merged
+alias glm=locally_merged
 
 # use exa - a modern ls replacement - for ls
 alias ls='exa'

@@ -158,6 +158,7 @@ add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#af0000"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

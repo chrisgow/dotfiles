@@ -44,7 +44,7 @@ ZSH_THEME="agnoster"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(git kubectl history-substring-search nulogy)
+plugins=(git kubectl history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -106,23 +106,6 @@ function update_homebrew {
 
 # Source from a file that will not go into my dotfiles repo
 [ -f .zshrc_private ] && source .zshrc_private
-
-# Nulogy/Packmanager specific settings
-export CAPYBARA_MAX_WAIT_TIME=600
-export PM_REQUEST_TIMEOUT_IN_MINUTES=10
-export PACKMANAGER_HOME=$HOME/d/opscore
-
-alias pm="cd $PACKMANAGER_HOME"
-alias dqi="cd $HOME/d/dqi"
-#alias mobbing="open https://nulogy.zoom.us/j/7286849403"
-#alias old_teamroom="open https://nulogy.zoom.us/j/7513224419\?pwd\=MVkrOVN4alpZSWdrUmZxOTA5K2hCZz09"
-alias teamroom="open https://nulogy.zoom.us/j/91076568627\?pwd\=dzFxZ1V5ZHBwYUdacXgyczVoY3hIZz09"
-alias okta='open https://nulogy.okta.com/app/UserHome'
-alias kb='open https://nulogy-go.atlassian.net/jira/software/c/projects/PM/boards/171'
-alias bk='buildkite'
-
-# Use improved outdated
-alias outdated='./development/scripts/outdated_gems/outdated_gems.rb'
 
 # Choose openssl over native OS X libraries.
 export PATH=/usr/local/opt/openssl/bin:$PATH

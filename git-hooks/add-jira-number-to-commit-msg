@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+import sys
+import re
+from subprocess import check_output
+
+commit_msg_filepath = sys.argv[1]
+
+# Get current branch name
+try:
+    branch = check_output(
+        ["git", "symbolic-ref", "--short", "HEAD"]
+    ).strip().decode()
+except Exception:
+    # Detached HEAD (merge commits, rebases, etc.) → do nothing
+    sys.exit(0)
+
+# Jira key pattern
+jira_regex = r"[A-Z]{2,7}-[0-9]{1,5}"
+
+# Search for Jira key anywhere in the branch name
+match = re.search(jira_regex, branch)
+if not match:
+    sys.exit(0)
+
+jira_key = match.group(0)
+
+# Read commit message
+with open(commit_msg_filepath, "r+") as fh:
+    commit_msg = fh.read()
+
+    # Avoid double-prefixing
+    if commit_msg.startswith(jira_key):
+        sys.exit(0)
+
+    # Prepend Jira key to commit message
+    fh.seek(0, 0)
+    fh.write(f"{jira_key}: {commit_msg}")
+

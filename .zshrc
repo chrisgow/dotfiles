@@ -44,7 +44,7 @@ ZSH_THEME="agnoster"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(git kubectl history-substring-search)
+plugins=(brew eza git history-substring-search macos mise zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,26 +83,10 @@ function rg() {
 # Shows the branches that have been merged.
 alias glm=locally_merged
 
-# use exa - a modern ls replacement - for ls
-alias ls='exa'
-
 alias permit_chromedriver='xattr -d com.apple.quarantine $(which chromedriver) > /dev/null 2>&1'
 
 # Brew functions
-alias brewdump='pushd $HOME && brew bundle dump --force && popd'
-function brupdate { brew update; brew upgrade; brew cleanup; brew doctor; }
-
-function update_homebrew {
-  rm -rf /usr/local/var/homebrew/locks
-  brew cleanup -q
-  brewdump
-  brew update -q
-  brew upgrade -q
-  brew upgrade -q --cask
-  brew cleanup -q
-  permit_chromedriver
-}
-
+alias bdump='pushd $HOME && brew bundle dump --force && popd'
 
 # Source from a file that will not go into my dotfiles repo
 [ -f .zshrc_private ] && source .zshrc_private
@@ -110,38 +94,11 @@ function update_homebrew {
 # Choose openssl over native OS X libraries.
 export PATH=/usr/local/opt/openssl/bin:$PATH
 
-# nvm configuration
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 export PATH="$HOME/.bin:$PATH"
 
-# Calling nvm use automatically in a directory with a .nvmrc file 
-# (from https://gist.github.com/tcrammond/e52dfad4c2b36258f83f7a964af10097)
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
-
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#af0000"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/chrisgow/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
